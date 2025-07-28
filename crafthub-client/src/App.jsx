@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
+import Home from "./pages/Home";
+import Gigs from "./pages/Gigs";
+import Gig from "./pages/Gig";
+import Login from "./pages//Login";
+import Register from "./pages/Register";
+import Add from "./pages/Add";
+import Orders from "./pages/Orders";
+import Messages from "./pages/Messages";
+import Message from "./pages/Message";
+import MyGigs from "./pages/MyGigs";
+
+function Layout() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen flex flex-col bg-[#F9FAFB] text-[#1F2937] font-roboto">
+      <Navbar />
+      <main className="flex-grow container max-w-[1400px] px-4 py-6 mx-auto">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/gigs",
+        element: <Gigs />,
+      },
+      {
+        path: "/myGigs",
+        element: <MyGigs />,
+      },
+      {
+        path: "/orders",
+        element: <Orders />,
+      },
+      {
+        path: "/messages",
+        element: <Messages />,
+      },
+      {
+        path: "/message/:id",
+        element: <Message />,
+      },
+      {
+        path: "/add",
+        element: <Add />,
+      },
+      {
+        path: "/gig/:id",
+        element: <Gig />,
+      },
+    ],
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
